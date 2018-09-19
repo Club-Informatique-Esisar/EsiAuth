@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello Adonis</title>
+    {{ style('bulma.min') }}
+    {{ style('style') }}
+
+    {{ script('bulma') }}
+
+    @!section('css')
+    @!section('js')
+  </head>
+  <body>
+    <nav class="navbar is-dark">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item is-size-3">
+            EsiAuth
+          </a>
+          <div role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="mainNav">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </div>
+        </div>
+      
+        <div id="mainNav" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="/">
+              Accueil
+            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="/edt">
+                EDT
+              </a>
+              <div class="navbar-dropdown is-boxed">
+                <a class="navbar-item" href="/edt/groups">
+                  Liste des groupes
+                </a>
+                <a class="navbar-item" href="/edt/export">
+                  Exporter
+                </a>
+              </div>
+            </div>
+            <a class="navbar-item" href="/library">
+              Bibliothèque des clubs
+            </a>
+            <a class="navbar-item" href="/promos">
+              Promos
+            </a>
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="/profile">
+                {{ auth.user.username }}
+              </a>
+              <div class="navbar-dropdown is-boxed">
+                <a class="navbar-item" href="/profile">
+                  Profil
+                </a>
+                <a class="navbar-item" href="/settings">
+                  Paramètres
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="/logout">
+                  Déconnexion
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+    <section id="main-container" class="container">
+      @if(error)
+        <div class="notification is-danger">
+          <button class="delete"></button>
+          {{ error }}
+        </div>
+      @endif
+      @!section('content')
+    </section>
+
+    <footer id="main-footer" class="footer">
+      <div class="content is-dark has-text-centered">
+        <p>Développé avec ♥ par <b><a href="https://twitter.com/NoNiMad">@NoNiMad</a></b> - Un soucis ? Contactez @CIE sur notre <b><a href="https://discord.gg/zHcwCyr">Discord</a></b> !</p>
+      </div>
+    </footer>
+  </body>
+</html>

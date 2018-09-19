@@ -1,0 +1,20 @@
+html {
+  background-color: #f5f5f5;
+}
+
+body {
+  font-family: 'SegoeUI', sans-serif;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+#main-container {
+  margin: 2em auto;
+}
+
+#main-footer {
+  padding: 1em;
+}

@@ -1,0 +1,29 @@
+<aside class="box menu">
+  <p class="menu-label">
+    Blog
+  </p>
+  <ul class="menu-list">
+    <li><a>Derniers articles</a></li>
+    <li><a>Aléatoire</a></li>
+    <li><a>Catégories</a></li>
+  </ul>
+  <p class="menu-label">
+    @loggedIn
+      Bienvenue, {{ auth.user.username }}
+    @else
+      Espace authentifié
+    @endloggedIn
+  </p>
+  <ul class="menu-list">
+    @loggedIn
+      <li><a href="/profile"/>Votre profil</a></li>
+      @if(auth.user.is_admin)
+        <li><a href="/admin"/>Administration</a><li>
+      @endif
+      <li><a href="/logout"/>Se déconnecter</a></li>
+    @else
+      <li><a href="/login">Connexion</a></li>
+      <li><a href="/sign-in">Inscription</a></li>
+    @endloggedIn
+  </ul>
+</aside>
