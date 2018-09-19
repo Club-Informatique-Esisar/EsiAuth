@@ -1,31 +1,9 @@
-# Adonis fullstack application
+# EsiAuth
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
+EsiAuth est à l'origine le système d'authentification centralisé utilisé par les applications et sites gérés par les étudiants de Grenoble INP - Esisar. Un frontend permet d'administrer le système et de fournir des services supplémentaires aux étudiants. On compte notamment :
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
-
-## Setup
-
-Use the adonis command to install the blueprint
-
-```bash
-adonis new yardstick
-```
-
-or manually clone the repo and then run `npm install`.
-
-
-### Migrations
-
-Run the following command to run startup migrations.
-
-```js
-adonis migration:run
-```
+1. Emploi du temps automatique et synchronisable sur mobile
+2. Bibliothèque de contenus physiques empruntables
+3. Liste des élèves et annuaire d'anciens élèves
+4. Outils de communication à destination des clubs
+5. Statistiques sur le serveur Discord
