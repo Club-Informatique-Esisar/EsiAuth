@@ -38,6 +38,10 @@ class User extends Model {
   promo () {
     return this.belongsTo('App/Models/Promo')
   }
+
+  static get hidden () {
+    return ['password']
+  }
 }
 
 module.exports = User

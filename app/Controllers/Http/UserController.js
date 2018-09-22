@@ -44,6 +44,14 @@ class UserController {
     await auth.logout()
     return response.redirect('/')
   }
+
+  async listToken({ auth }) {
+    return await auth.authenticator('api').listTokensForUser(auth.current.user)
+  }
+
+  async createToken({ auth }) {
+    return await auth.authenticator('api').generate(auth.current.user)
+  }
 }
 
 module.exports = UserController
