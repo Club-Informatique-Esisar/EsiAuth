@@ -3,7 +3,7 @@
   "version": "4.1.0",
   "adonis-version": "4.1.0",
   "description": "Service d'authentification centralisé des services destinés aux Esisariens",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node ace test"
@@ -32,5 +32,13 @@
   "devDependencies": {},
   "autoload": {
     "App": "./app"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "app",
+      "config",
+      "start"
+    ],
+    "verbose": true
   }
 }
