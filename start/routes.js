@@ -50,8 +50,17 @@ Route.group(() => {
 
 // API - Auth
 Route.group(() => {
-  Route.get('user', 'ApiController.listUsers')
-  Route.get('user/:name', 'ApiController.getUser')
+  Route.get('user', 'ApiControllerV1.listUsers')
+  Route.get('user/:name', 'ApiControllerV1.getUser')
+  Route.post('user/search', 'ApiControllerV1.searchUser')
 })
 .prefix(apiPrefix)
 .middleware('auth:api')
+
+// API - Admin
+Route.group(() => {
+  Route.post('user/discord/send', 'ApiControllerV1.sendDiscord')
+  Route.post('user/discord/link', 'ApiControllerV1.linkDiscord')
+})
+.prefix(apiPrefix)
+.middleware(['auth:api', 'isAdmin'])
