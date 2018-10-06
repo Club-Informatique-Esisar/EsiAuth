@@ -1,0 +1,62 @@
+@layout('LayoutAdmin')
+
+@section('content')
+<h1 class="title is-4">Import d'utilisateurs en masse</h1>
+@if(errors && success)
+<article class="message">
+  <div class="message-header">
+    <p>Résultat de l'import</p>
+  </div>
+  <div class="message-body">
+    <table class="table is-fullwidth has-background-light">
+      <thead>
+        <tr>
+          <th>Résultat</th>
+          <th>Mail</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each((error, mail) in errors)
+        <tr class="has-text-danger">
+          <td>{{ error }}</td>
+          <td>{{ mail }}</td>
+        </tr>
+        @endeach
+        @each((name, mail) in success)
+        <tr class="has-text-success">
+          <td>{{ name }}</td>
+          <td>{{ mail }}</td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+</article>
+@endif
+<form method="POST">
+    <div class="field">
+      <label class="label">Promotion</label>
+      <div class="control">
+        <div class="select">
+          <select name="promo">
+            @each(promo in promos)
+              <option>{{ promo.name }}</option>
+            @endeach
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="password">Liste des utilisateurs</label>
+      <div class="control">
+        <textarea class="textarea" placeholder="prenom.nom@etu.esisar.grenoble-inp.fr" name="mails" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-primary">Importer</button>
+      </div>
+    </div>
+    {{ csrfField() }}
+  </form>
+@endsection

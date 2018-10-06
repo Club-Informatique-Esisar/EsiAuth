@@ -63,6 +63,11 @@
                 <a class="navbar-item" href="/settings">
                   Paramètres
                 </a>
+                @if(auth.user.is_admin)
+                <a class="navbar-item" href="/admin">
+                  Administration
+                </a>
+                @endif
                 <hr class="navbar-divider">
                 <a class="navbar-item" href="/logout">
                   Déconnexion

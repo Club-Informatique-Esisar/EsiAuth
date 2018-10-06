@@ -37,6 +37,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'AdminController.home')
   Route.get('users', 'AdminController.users')
+  Route.route('users/import', 'AdminController.usersImport', ['GET', 'POST'])
 })
 .prefix('admin')
 .middleware(['auth', 'isAdmin'])
