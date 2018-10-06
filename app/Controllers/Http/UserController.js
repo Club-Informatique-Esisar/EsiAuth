@@ -2,7 +2,7 @@
 const User = use('App/Models/User')
 
 class UserController {
-  async login ({ request, response, auth, session, view }) {
+  async login ({ request, response, auth, view }) {
     const { email, password } = request.all()
     try {
       await auth.attempt(email, password)
@@ -43,6 +43,14 @@ class UserController {
   async logout({ response, auth }) {
     await auth.logout()
     return response.redirect('/')
+  }
+
+  async listToken({ auth }) {
+    return await auth.authenticator('api').listTokensForUser(auth.current.user)
+  }
+
+  async createToken({ auth }) {
+    return await auth.authenticator('api').generate(auth.current.user)
   }
 }
 

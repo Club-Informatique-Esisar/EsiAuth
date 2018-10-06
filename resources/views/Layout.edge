@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Hello Adonis</title>
+    <title>EsiAuth</title>
     {{ style('bulma.min') }}
     {{ style('style') }}
 
@@ -63,6 +63,11 @@
                 <a class="navbar-item" href="/settings">
                   Paramètres
                 </a>
+                @if(auth.user.is_admin)
+                <a class="navbar-item" href="/admin">
+                  Administration
+                </a>
+                @endif
                 <hr class="navbar-divider">
                 <a class="navbar-item" href="/logout">
                   Déconnexion
