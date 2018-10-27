@@ -24,6 +24,8 @@ Route.get('/', 'HomeController.home')
 Route.post('sign-in', 'UserController.signIn')
 Route.post('login', 'UserController.login')
 
+Route.get('test/password', 'TestController.password')
+
 // Website - Auth
 Route.group(() => {
   Route.get('logout', 'UserController.logout')
@@ -36,8 +38,13 @@ Route.group(() => {
 // Website - Admin
 Route.group(() => {
   Route.get('/', 'AdminController.home')
+  
   Route.get('users', 'AdminController.users')
   Route.route('users/import', 'AdminController.usersImport', ['GET', 'POST'])
+
+  Route.get('discord/tags', 'DiscordController.tagList')
+  Route.post('discord/tags', 'DiscordController.tagAdd')
+  Route.get('discord/tags/delete/:tag', 'DiscordController.tagDelete')
 })
 .prefix('admin')
 .middleware(['auth', 'isAdmin'])
@@ -53,6 +60,8 @@ Route.group(() => {
   Route.get('user', 'ApiControllerV1.listUsers')
   Route.get('user/:name', 'ApiControllerV1.getUser')
   Route.post('user/search', 'ApiControllerV1.searchUser')
+
+  Route.get('discord/tags', 'ApiControllerV1.listTags')
 })
 .prefix(apiPrefix)
 .middleware('auth:api')

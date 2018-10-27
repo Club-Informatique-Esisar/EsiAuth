@@ -1,6 +1,8 @@
 'use strict'
 const User = use('App/Models/User')
 const Token = use('App/Models/Token')
+const Promo = use('App/Models/Promo')
+const Tag = use('App/Models/Tag')
 const Mail = use('Mail')
 
 class ApiControllerV1 {
@@ -96,6 +98,10 @@ class ApiControllerV1 {
     user.discord_id = data.discord_id    
     await user.save()
     return user.toJSON().promo
+  }
+
+  async listTags() {
+    return await Tag.query().orderBy('name').fetch()
   }
 }
 
