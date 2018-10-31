@@ -20,6 +20,7 @@ class UserController {
       session
         .withErrors([{ field: 'password2', message: 'Doit-être égal au premier!' }])
         .flashExcept(['password', 'password2', 'csrf_token'])
+      return response.redirect('/')
     }
 
     const user = new User()

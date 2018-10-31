@@ -1,0 +1,31 @@
+@layout('LayoutAdmin')
+
+@section('content')
+<form method="POST">
+  <div class="field is-grouped">
+    <p class="control">
+      <input class="input" type="text" name="newTag" placeholder="Nom du nouveau tag">
+    </p>
+    <p class="control">
+      <button class="button is-primary">Ajouter</button>
+    </p>
+  </div>
+  {{ csrfField() }}
+</form>
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Tag</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @each(tag in tags)
+    <tr>
+      <th>{{ tag.name }}</th>
+      <td><a href="/admin/discord/tags/delete/{{ tag.name }}">Supprimer</a></td>
+    </tr>
+    @endeach
+  </tbody>
+</table>
+@endsection

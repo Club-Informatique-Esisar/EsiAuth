@@ -2,7 +2,7 @@
 
 const Model = use('Model')
 
-class Promo extends Model {
+class Tag extends Model {
   static get primaryKey () {
     return 'name'
   }
@@ -16,4 +16,4 @@ class Promo extends Model {
   }
 }
 
-module.exports = Promo
+module.exports = Tag
