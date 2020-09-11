@@ -6,7 +6,7 @@ class HomeController {
       await auth.check()
       return view.render('Home')
     } catch (error) {
-      return view.render('NotLoggedIn')
+      return view.render('Guests/LoginOrRegister')
     }
   }
 }

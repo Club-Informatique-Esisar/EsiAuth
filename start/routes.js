@@ -23,6 +23,8 @@ const apiPrefix = "api"
 Route.get('/', 'HomeController.home')
 Route.post('sign-in', 'UserController.signIn')
 Route.post('login', 'UserController.login')
+Route.route('forgotPassword', 'UserController.forgotPassword', ['GET', 'POST'])
+Route.route('resetPassword', 'UserController.resetPassword', ['GET', 'POST'])
 
 Route.get('test/password', 'TestController.password')
 
