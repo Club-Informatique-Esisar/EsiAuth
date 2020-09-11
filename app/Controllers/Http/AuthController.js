@@ -6,7 +6,7 @@ const Route = use('Route')
 const Mail = use('Mail')
 const moment = require("moment")
 
-class UserController
+class AuthController
 {
     async login ({ request, response, auth, session })
     {
@@ -89,7 +89,7 @@ class UserController
                 expire_at: moment().add(10, "m").toDate()
             })
 
-            const resetUrl = `${process.env.CLIENT_URL}${Route.url("UserController.resetPassword")}?token=${token}`
+            const resetUrl = `${process.env.CLIENT_URL}${Route.url("AuthController.resetPassword")}?token=${token}`
             await Mail.raw(
                 `Lien pour réinitialiser votre mot de passe : ${resetUrl}\nCe lien expirera dans 10 minutes.`,
                 (message) => {
@@ -187,4 +187,4 @@ class UserController
     }
 }
 
-module.exports = UserController
+module.exports = AuthController

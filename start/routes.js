@@ -21,19 +21,19 @@ const apiPrefix = "api"
 
 // Website - No Auth
 Route.get('/', 'HomeController.home')
-Route.post('sign-in', 'UserController.signIn')
-Route.post('login', 'UserController.login')
-Route.route('forgotPassword', 'UserController.forgotPassword', ['GET', 'POST'])
-Route.route('resetPassword', 'UserController.resetPassword', ['GET', 'POST'])
+Route.post('sign-in', 'AuthController.signIn')
+Route.post('login', 'AuthController.login')
+Route.route('forgotPassword', 'AuthController.forgotPassword', ['GET', 'POST'])
+Route.route('resetPassword', 'AuthController.resetPassword', ['GET', 'POST'])
 
 Route.get('test/password', 'TestController.password')
 
 // Website - Auth
 Route.group(() => {
-  Route.get('logout', 'UserController.logout')
-  Route.get('profile', 'UserController.profile')
-  Route.get('token', 'UserController.listToken')
-  Route.get('token/new', 'UserController.createToken')
+  Route.get('logout', 'AuthController.logout')
+  Route.get('profile', 'AuthController.profile')
+  Route.get('token', 'AuthController.listToken')
+  Route.get('token/new', 'AuthController.createToken')
 })
 .middleware('auth')
 
