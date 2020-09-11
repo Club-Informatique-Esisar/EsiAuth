@@ -157,6 +157,8 @@ class UserController
         catch(err)
         {
             console.error(err)
+            session.flash({ notification: { type: "error", text: "Une erreur s'est produite lors de l'opération, merci de réessayer." } })
+            return response.redirect("/")
         }
 
         session.flash({ notification: { type: "success", text: "Mot de passe réinitialisé avec succès !" } })
