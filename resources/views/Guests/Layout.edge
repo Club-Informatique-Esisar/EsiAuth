@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>EsiAuth - Bienvenue</title>
+        {{ style('bulma.min') }}
+        {{ style('style_nli') }}
+    </head>
+    <body>
+        <section class="hero is-dark is-bold">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <p class="title">EsiAuth</p>
+                    <p class="subtitle">L'intranet des Esisariens</p>
+                </div>
+            </div>
+
+            <div class="hero-foot">
+                <nav class="tabs is-boxed is-centered is-medium">
+                    <div class="container">
+                        <ul>
+                            <li>
+                                <a href="https://esisariens.org/">
+                                Esisariens.org
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://esilan.esisariens.org/">
+                                Esilan
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://paniers.esisariens.org/">
+                                Paniers de légumes
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://discord.gg/zHcwCyr">
+                                Serveur Discord
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    
+        <section id="main-container" class="container">
+            @if(flashMessage('notification'))
+            <div class="columns">
+                <div class="column is-8 is-offset-2">
+                    <div class="notification {{ flashMessage('notification').type === 'error' ? 'is-danger' : 'is-success' }}">
+                        {{ flashMessage('notification').text }}
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            @!section('content')
+        </section>
+    </body>
+</html>

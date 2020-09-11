@@ -1,0 +1,79 @@
+@layout('Guests/Layout')
+
+@section('content')
+<div class="columns">
+    <div class="column is-4 is-offset-2">
+        <div class="box">
+            <h1 class="title is-4 has-text-centered">Connexion</h1>
+
+            <form action="login" method="POST">
+                <div class="field">
+                    <label class="label">Nom d'utilisateur</label>
+                    <div class="control">
+                        <input class="input" type="text" name="email" value="{{ old('email', '') }}" placeholder="prénom.nom@etu" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="password">Mot de passe</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" />
+                    </div>
+                </div>
+                @if(hasErrorFor('password'))
+                    <p class="help is-danger">{{ getErrorFor('password') }}</p>
+                @endif
+                <br>
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-primary is-medium">Se connecter</button>
+                    </div>
+                </div>
+                {{ csrfField() }}
+            </form>
+
+            <p class="has-text-centered">
+                <a href="{{ route('UserController.forgotPassword') }}">Mot de passe oublié ?</a>
+            </p>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="box">
+            <h1 class="title is-4 has-text-centered">Externe à l'Esisar ?</h1>
+            
+            <form action="sign-in" method="POST">
+                <div class="field">
+                    <label class="label">Nom d'utilisateur</label>
+                    <div class="control">
+                        <input class="input" type="text" name="username" placeholder="Sera utilisé pour vous connecter" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Adresse mail</label>
+                    <div class="control">
+                        <input class="input" type="text" name="email" placeholder="jean-luc.poissard@gmail.com" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="password">Mot de passe</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password" placeholder="https://xkcd.com/936/" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="password">Répéter le mot de passe</label>
+                    <div class="control">
+                        <input class="input" type="password" name="password2" />
+                    </div>
+                </div>
+                <br>
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-primary is-medium">S'inscrire</button>
+                    </div>
+                </div>
+                {{ csrfField() }}
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
