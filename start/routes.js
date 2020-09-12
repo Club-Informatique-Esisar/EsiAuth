@@ -26,8 +26,6 @@ Route.post('login', 'AuthController.login')
 Route.route('forgotPassword', 'AuthController.forgotPassword', ['GET', 'POST'])
 Route.route('resetPassword', 'AuthController.resetPassword', ['GET', 'POST'])
 
-Route.get('test/password', 'TestController.password')
-
 // Website - Auth
 Route.group(() => {
   Route.get('logout', 'AuthController.logout')
