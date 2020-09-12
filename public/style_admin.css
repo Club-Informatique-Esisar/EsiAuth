@@ -5,6 +5,11 @@ html, body {
   flex-direction: column;
 }
 
+#main-nav
+{
+    flex-shrink: 0;
+}
+
 #main-container {
   flex-grow: 1;
 }

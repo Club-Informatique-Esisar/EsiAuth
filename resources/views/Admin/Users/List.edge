@@ -2,33 +2,33 @@
 
 @section('content')
 <table class="table is-fullwidth">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Login</th>
-      <th>Mail</th>
-      <th>Prénom</th>
-      <th>Nom</th>
-      <th>Promo</th>
-      <th>Externe</th>
-      <th>Admin</th>
-      <th>Discord</th>
-    </tr>
-  </thead>
-  <tbody>
-    @each(user in users)
-    <tr>
-      <th>{{ user.id }}</th>
-      <td>{{ user.username }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.first_name }}</td>
-      <td>{{ user.last_name }}</td>
-      <td>{{ user.promo }}</td>
-      <td><input type="checkbox" {{ user.is_extern ? "checked" : "" }} /></td>
-      <td><input type="checkbox" {{ user.is_admin ? "checked" : "" }} /></td>
-      <td><input type="checkbox" {{ user.discord_id !== null ? "checked" : "" }} /></td>
-    </tr>
-    @endeach
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Login</th>
+        <th>Mail</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Promo</th>
+        <th>Externe</th>
+        <th>Admin</th>
+        <th>Discord</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(user in users)
+      <tr>
+        <th>{{ user.id }}</th>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.promo }}</td>
+        <td><input type="checkbox" {{ user.is_extern ? "checked" : "" }} /></td>
+        <td><input type="checkbox" {{ user.is_admin ? "checked" : "" }} /></td>
+        <td><input type="checkbox" {{ user.discord_id !== null ? "checked" : "" }} /></td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
 @endsection
