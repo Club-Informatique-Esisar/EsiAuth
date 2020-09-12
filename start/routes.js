@@ -29,9 +29,10 @@ Route.route('resetPassword', 'AuthController.resetPassword', ['GET', 'POST'])
 // Website - Auth
 Route.group(() => {
   Route.get('logout', 'AuthController.logout')
-  Route.get('profile', 'AuthController.profile')
   Route.get('token', 'AuthController.listToken')
   Route.get('token/new', 'AuthController.createToken')
+
+  Route.route('profile', 'UserController.profile', ['GET', 'POST'])
 })
 .middleware('auth')
 

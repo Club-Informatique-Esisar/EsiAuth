@@ -165,11 +165,6 @@ class AuthController
         return response.redirect("/")
     }
 
-    async profile({ auth })
-    {
-        return auth.user
-    }
-
     async logout({ response, auth })
     {
         await auth.logout()
