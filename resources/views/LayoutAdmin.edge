@@ -1,38 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>EsiAuth - Administration</title>
-    {{ style('bulma.min') }}
-    {{ style('style_admin') }}
-    @!section('css')
-    @!section('js')
-  </head>
-  <body>
-    <section class="hero is-dark is-small">
-      <div class="hero-body">
-          <p class="title">
-            EsiAuth - Administration
-          </p>
-        </div>
-      </div>
-    </section>
-  
-    <section id="main-container">
-      <div class="columns">
-        <div class="column is-2">
-          @include('Partials.SidebarAdmin')
-        </div>
-        <div class="column">
-          @if(error)
-            <div class="notification is-danger">
-              <button class="delete"></button>
-              {{ error }}
+    <head>
+        <meta charset="UTF-8" />
+        <title>EsiAuth - Administration</title>
+
+        {{ style('bulma.min') }}
+        {{ style('style_admin') }}
+        @!section('css')
+
+        @!section('js')
+    </head>
+    <body>
+        <nav class="navbar is-dark">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item is-size-3" href="/admin">
+                        EsiAuth - Administration
+                    </a>
+                </div>
+
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="/">
+                            Retour au site
+                        </a>
+                    </div>
+                </div>
             </div>
-          @endif
-          @!section('content')
-        </div>
-      </div>
-    </section>
-  </body>
+        </nav>
+    
+        <section id="main-container">
+            <div class="columns">
+                <div class="column is-2">
+                    @include('Partials.SidebarAdmin')
+                </div>
+                <div class="column">
+                @if(error)
+                    <div class="notification is-danger">
+                        <button class="delete"></button>
+                        {{ error }}
+                    </div>
+                @endif
+                @!section('content')
+                </div>
+            </div>
+        </section>
+    </body>
 </html>

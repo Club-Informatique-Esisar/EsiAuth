@@ -1,189 +1,76 @@
 "use strict"
 const User = use("App/Models/User")
-const Token = use("App/Models/Token")
-
-const Route = use('Route')
-const Mail = use('Mail')
-const moment = require("moment")
 
 class UserController
 {
-    async login ({ request, response, auth, session })
-    {
-        const { email, password } = request.all()
-        try
-        {
-            await auth.attempt(email, password)
-        }
-        catch(err)
-        {
-            session
-                .withErrors([{ field: "password", message: "L'email ou le mot de passe est incorrect" }])
-                .flashExcept(["password", "csrf_token"])
-            return response.redirect("back")
-        }
-
-        return response.redirect("back")
-    }
-
-    async signIn ({ request, response, auth, view, session })
-    {
-        /*const { username, email, password, password2 } = request.all()
-        if (password !== password2)
-        {
-            session
-                .withErrors([{ field: "password2", message: "Doit-être égal au premier" }])
-                .flashExcept(["password", "password2", "csrf_token"])
-            return response.redirect("back")
-        }
-
-        const user = new User()
-        try
-        {
-            user.username = username
-            user.email = email
-            user.password = password
-            await user.save()
-        }
-        catch(err)
-        {
-            return view.render("Guests/LoginOrRegister", { error: "Erreur lors de la création de l'utilisateur" })
-        }
-
-        await auth.login(user)
-        return response.redirect("back")*/
-
-        session.flash({ notification: { type: "error", text: "L'inscription des externes n'est pas disponible pour le moment." } })
-        return response.redirect("back")
-    }
-    
-    async forgotPassword ({ request, response, view, session })
+    async profile({ request, response, session, view, auth })
     {
         if (request.method() === "GET")
-            return view.render("Guests/ForgotPassword")
+            return view.render("Users/Profile", { user: auth.user.toJSON() })
+        
+        const flashExceptFields = ["current_password", "password", "password2", "csrf_token"]
 
-        const tokenType = "reset_password"
+        const {
+            email,
+            current_password,
+            password,
+            password2,
+            first_name,
+            last_name
+        } = request.post()
+        const user = auth.user
 
-        const { email } = request.all()
-        if (!/.+@.+\..+/.test(email))
+        // If tried to changed mail or password, check if password is correct
+        if (user.email !== email || password !== "")
         {
-            session
-                .withErrors([{ field: "email", message: "L'email saisi est invalide" }])
-                .flashExcept(["csrf_token"])
-            return response.redirect("back")
-        }
-
-        const user = await User
-            .query()
-            .where("email", email)
-            .first()
-
-        if (user !== null)
-        {
-            await user.tokens().where("type", tokenType).delete()
-
-            const token = require("uuid").v4()
-            await user.tokens().create({
-                token: token,
-                type: tokenType,
-                expire_at: moment().add(10, "m").toDate()
-            })
-
-            const resetUrl = `${process.env.CLIENT_URL}${Route.url("UserController.resetPassword")}?token=${token}`
-            await Mail.raw(
-                `Lien pour réinitialiser votre mot de passe : ${resetUrl}\nCe lien expirera dans 10 minutes.`,
-                (message) => {
-                    message.from("no-reply@esisariens.org")
-                    message.to(user.email)
-                    message.subject("Esisariens - Réinitialisation de mot de passe")
-                })
-        }
-            
-        session.flash({
-            notification: {
-                type: "success",
-                text: "Si un compte est associé à cet email, un lien pour réinitialiser le mot de passe y a été envoyé."
+            try
+            {
+                await auth.validate(user.username, current_password)
             }
-        })
-        return response.redirect("/")
-    }
-
-    async resetPassword ({ request, response, view, session })
-    {
-        const tokenType = "reset_password"
-
-        // Verification du token
-        const { token } = request.get()
-        if (token === undefined)
-        {
-            session.flash({ notification: { type: "error", text: "Le lien de réinitialisation est incorrect." } })
-            return response.redirect("/")
+            catch(err)
+            {
+                session
+                    .withErrors([{ field: "current_password", message: "Mot de passe incorrect" }])
+                    .flashExcept(flashExceptFields)
+                return response.redirect("back")
+            }
         }
 
-        const user = await User
-            .query()
-            .whereHas("tokens", (builder) => {
-                builder.where("type", tokenType)
-                builder.where("token", token)
-                builder.where("expire_at", ">", new Date())
-            })
-            .first()
-
-        if (user === null)
+        // Try to change mail if needed
+        if (user.email !== email)
         {
-            await Token.query().where("token", token).delete()
-            session.flash({ notification: { type: "error", text: "Le token de réinitialisation fourni n'existe pas ou n'est plus valide." } })
-            return response.redirect("/")
+            if (!/.+@.+\..+/.test(email))
+            {
+                session
+                    .withErrors([{ field: "email", message: "L'email saisi est invalide" }])
+                    .flashExcept(flashExceptFields)
+                return response.redirect("back")
+            }
+
+            user.email = email
         }
 
-        if (request.method() === "GET")
-            return view.render("Guests/ResetPassword")
-
-        const { password, password2 } = request.post()
-        if (password !== password2)
+        // Try to change password if needed
+        if (password !== "")
         {
-            session
-                .withErrors([{ field: "password2", message: "Les deux mots de passe doivent être égaux !" }])
-                .flashExcept(["password", "password2", "csrf_token"])
-            return response.redirect("back")
-        }
+            if (password !== password2)
+            {
+                session
+                    .withErrors([{ field: "password2", message: "Les mots de passe doivent être identiques" }])
+                    .flashExcept(flashExceptFields)
+                return response.redirect("back")
+            }
 
-        try
-        {
-            await user.tokens().where("type", tokenType).delete()
             user.password = password
-            await user.save()
-        }
-        catch(err)
-        {
-            console.error(err)
-            session.flash({ notification: { type: "error", text: "Une erreur s'est produite lors de l'opération, merci de réessayer." } })
-            return response.redirect("/")
         }
 
-        session.flash({ notification: { type: "success", text: "Mot de passe réinitialisé avec succès !" } })
-        return response.redirect("/")
-    }
+        // Set other fields
+        // Not sure we want to do that this way for the name though
+        // user.first_name = first_name
+        // user.last_name = last_name
 
-    async profile({ auth })
-    {
-        return auth.user
-    }
-
-    async logout({ response, auth })
-    {
-        await auth.logout()
-        return response.redirect("/")
-    }
-
-    async listToken({ auth })
-    {
-        return await auth.authenticator("api").listTokensForUser(auth.current.user)
-    }
-
-    async createToken({ auth })
-    {
-        return await auth.authenticator("api").generate(auth.current.user)
+        await user.save()
+        return response.redirect("back")
     }
 }
 

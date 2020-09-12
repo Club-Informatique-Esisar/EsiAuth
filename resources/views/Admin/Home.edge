@@ -1,5 +1,19 @@
 @layout('LayoutAdmin')
 
 @section('content')
-EH BEH C'BEAU
+<div class="px-2 py-2">
+    <p class="content">
+        Bienvenue dans la section d'administration d'EsiAuth
+    </p>
+    <div class="tile is-ancestor">
+        @each((name, value) in counters)
+        <div class="tile is-parent">
+            <div class="tile is-child box">
+                <p class="title">{{ name }}</p>
+                <p class="subtitle">{{ value }}</p>
+            </div>
+        </div>
+        @endeach
+    </div>
+</div>
 @endsection
