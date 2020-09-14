@@ -10,7 +10,7 @@
                 <div class="field">
                     <label class="label">Nom d'utilisateur</label>
                     <div class="control">
-                        <input class="input" type="text" name="email" value="{{ old('email', '') }}" placeholder="prénom.nom@etu" />
+                        <input class="input" type="text" name="login" value="{{ old('login', '') }}" placeholder="Probablement votre nom de famille" />
                     </div>
                 </div>
                 <div class="field">
@@ -39,36 +39,37 @@
     <div class="column is-4">
         <div class="box">
             <h1 class="title is-4 has-text-centered">Externe à l'Esisar ?</h1>
+            <h2 class="subtitle is-6 has-text-centered">Indisponible pour le moment</h2>
             
             <form action="sign-in" method="POST">
                 <div class="field">
                     <label class="label">Nom d'utilisateur</label>
                     <div class="control">
-                        <input class="input" type="text" name="username" placeholder="Sera utilisé pour vous connecter" />
+                        <input class="input" type="text" name="username" placeholder="Sera utilisé pour vous connecter" disabled />
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Adresse mail</label>
                     <div class="control">
-                        <input class="input" type="text" name="email" placeholder="jean-luc.poissard@gmail.com" />
+                        <input class="input" type="text" name="email" placeholder="jean-luc.poissard@gmail.com" disabled />
                     </div>
                 </div>
                 <div class="field">
                     <label class="label" for="password">Mot de passe</label>
                     <div class="control">
-                        <input class="input" type="password" name="password" placeholder="https://xkcd.com/936/" />
+                        <input class="input" type="password" name="password" placeholder="https://xkcd.com/936/" disabled />
                     </div>
                 </div>
                 <div class="field">
                     <label class="label" for="password">Répéter le mot de passe</label>
                     <div class="control">
-                        <input class="input" type="password" name="password2" />
+                        <input class="input" type="password" name="password2" disabled />
                     </div>
                 </div>
                 <br>
                 <div class="field is-grouped is-grouped-centered">
                     <div class="control">
-                        <button class="button is-primary is-medium">S'inscrire</button>
+                        <button class="button is-primary is-medium" disabled>S'inscrire</button>
                     </div>
                 </div>
                 {{ csrfField() }}

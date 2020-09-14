@@ -10,17 +10,16 @@ class AuthController
 {
     async login ({ request, response, auth, session })
     {
-        const { email, password } = request.all()
+        const { login, password } = request.all()
         try
         {
-            await auth.attempt(email, password)
+            await auth.attempt(login, password)
         }
         catch(err)
         {
             session
-                .withErrors([{ field: "password", message: "L'email ou le mot de passe est incorrect" }])
+                .withErrors([{ field: "password", message: "Le login ou le mot de passe est incorrect" }])
                 .flashExcept(["password", "csrf_token"])
-            return response.redirect("back")
         }
 
         return response.redirect("back")

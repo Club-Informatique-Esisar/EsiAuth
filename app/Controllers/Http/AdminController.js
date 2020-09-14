@@ -6,7 +6,6 @@ class AdminController
 {
     async home({ view })
     {
-
         return view.render('Admin/Home', {
             counters:
             {
@@ -16,10 +15,37 @@ class AdminController
         })
     }
 
-    async users({ view })
+    async users({ request, view })
     {
-        const users = await User.query().orderBy('last_name').orderBy('first_name').fetch()
-        return view.render('Admin/Users/List', { users: users.toJSON() })
+        let { page, orderBy, orderDir, search } = request.get()
+
+        let userQuery = User.query()
+        if (orderBy === undefined)
+            orderBy = "last_name"
+        
+        if (orderDir !== "DESC" && orderDir !== "ASC")
+            orderDir = "ASC"
+
+        userQuery.orderBy(orderBy, orderDir)
+        
+        if (search !== undefined)
+        {
+            const likeString = `%${search}%`
+            userQuery
+                .where("username", "like", likeString)
+                .orWhere("email", "like", likeString)
+                .orWhere("last_name", "like", likeString)
+                .orWhere("first_name", "like", likeString)
+        }
+
+        const users = await userQuery.paginate(Math.max(parseInt(page, 10), 1) || 1)
+        
+        return view.render('Admin/Users/List', {
+            users: users.toJSON(),
+            search: search,
+            orderBy: orderBy,
+            orderIcon: orderDir === "DESC" ? "fa:sort-down" : "fa:sort-up",
+        })
     }
 
     async usersImport({ request,  view })
