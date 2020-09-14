@@ -1,34 +1,215 @@
 @layout('LayoutAdmin')
 
 @section('content')
+
+<p class="content">
+    {{ users.total }} utilisateurs
+</p>
+
+<div class="content">
+    <form id="searchForm">
+        <div class="field has-addons">
+            <div class="control has-icons-left">
+                <input id="searchField" class="input" type="text" placeholder="Un prénom, un login..." value="{{ search }}">
+                <span class="icon is-small is-left">
+                    <span class="iconify" data-icon="fa:search"></span>
+                </span>
+            </div>
+            <div class="control">
+                <a class="button is-info" href="javascript:applySearch()">Rechercher</a>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table is-fullwidth">
     <thead>
-      <tr>
-        <th>#</th>
-        <th>Login</th>
-        <th>Mail</th>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>Promo</th>
-        <th>Externe</th>
-        <th>Admin</th>
-        <th>Discord</th>
-      </tr>
+        <tr>
+            <th class="clickable" data-order-by="id">
+                #
+                @if(orderBy.includes('id'))
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="username">
+                Login
+                @if(orderBy === 'username')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="email">
+                Mail
+                @if(orderBy === 'email')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="first_name">
+                Prénom
+                @if(orderBy === 'first_name')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="last_name">
+                Nom
+                @if(orderBy === 'last_name')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="promo">
+                Promo
+                @if(orderBy === 'promo')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="is_extern">
+                Externe
+                @if(orderBy === 'is_extern')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="is_admin">
+                Admin
+                @if(orderBy === 'is_admin')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+            <th class="clickable" data-order-by="discord_id">
+                Discord
+                @if(orderBy === 'discord_id')
+                <span class="iconify" data-icon="{{ orderIcon }}"></span>
+                @endif
+            </th>
+        </tr>
     </thead>
     <tbody>
-      @each(user in users)
-      <tr>
-        <th>{{ user.id }}</th>
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.first_name }}</td>
-        <td>{{ user.last_name }}</td>
-        <td>{{ user.promo }}</td>
-        <td><input type="checkbox" {{ user.is_extern ? "checked" : "" }} /></td>
-        <td><input type="checkbox" {{ user.is_admin ? "checked" : "" }} /></td>
-        <td><input type="checkbox" {{ user.discord_id !== null ? "checked" : "" }} /></td>
-      </tr>
-      @endeach
+        @each(user in users.data)
+        <tr>
+            <th>{{ user.id }}</th>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.promo }}</td>
+            <td><input type="checkbox" {{ user.is_extern ? "checked" : "" }} /></td>
+            <td><input type="checkbox" {{ user.is_admin ? "checked" : "" }} /></td>
+            <td><input type="checkbox" {{ user.discord_id !== null ? "checked" : "" }} /></td>
+        </tr>
+        @endeach
     </tbody>
-  </table>
+</table>
+
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <a class="pagination-previous" href="javascript:goToPage({{ users.page - 1}})">Page précédente</a>
+    <a class="pagination-next" href="javascript:goToPage({{ users.page + 1}})">Page suivante</a>
+    <ul class="pagination-list">
+        @if(users.page > 1)
+        <li>
+            <a  class="pagination-link"
+                aria-label="Aller à la page 1"
+                href="javascript:goToPage(1)">
+                1
+            </a>
+        </li>
+        @endif
+        @if(users.page > 3)
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        @endif
+        @if(users.page > 2)
+        <li>
+            <a  class="pagination-link"
+                aria-label="Aller à la page {{ users.page - 1 }}"
+                href="javascript:goToPage({{ users.page - 1}})">
+                {{ users.page - 1 }}
+            </a>
+        </li>
+        @endif
+        <li>
+            <a class="pagination-link is-current" aria-label="Page {{ users.page }}" aria-current="page">{{ users.page }}</a>
+        </li>
+        @if(users.lastPage - users.page >= 2)
+        <li>
+            <a  class="pagination-link"
+                aria-label="Aller à la page {{ users.page + 1 }}"
+                href="javascript:goToPage({{ users.page + 1}})">
+                {{ users.page + 1 }}
+            </a>
+        </li>
+        @endif
+        @if(users.lastPage - users.page >= 3)
+        <li>
+            <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        @endif
+        @if(users.lastPage - users.page >= 1)
+        <li>
+            <a  class="pagination-link"
+                aria-label="Aller à la page {{ users.lastPage }}"
+                href="javascript:goToPage({{ users.lastPage}})">
+                {{ users.lastPage }}
+            </a>
+        </li>
+        @endif
+    </ul>
+</nav>
+
+<script>
+    function getParams()
+    {
+        return new URLSearchParams(document.location.search.substring(1))
+    }
+
+    function goToPage(page)
+    {
+        const params = getParams()
+        params.set("page", page)
+        document.location.search = params.toString()
+    }
+
+    function applySearch()
+    {
+        const params = getParams()
+        const searchText = document.getElementById("searchField").value.trim()
+
+        if (params.get("search") !== searchText)
+        {
+            params.delete("page")
+
+            if (searchText === "")
+                params.delete("search")
+            else            
+                params.set("search", searchText)
+
+            document.location.search = params.toString()
+        }
+    }
+
+    function setOrderBy(orderBy)
+    {
+        const params = getParams()
+
+        if (orderBy === params.get("orderBy"))
+        {
+            params.set("orderDir", [null, "ASC"].includes(params.get("orderDir")) ? "DESC" : "ASC")
+        }
+        else
+        {
+            params.set("orderBy", orderBy)
+            params.delete("orderDir")
+        }
+        
+        document.location.search = params.toString()
+    }
+
+    for (const el of document.querySelectorAll("thead tr th"))
+    {
+        el.addEventListener("click", () => setOrderBy(el.getAttribute("data-order-by")))
+    }
+
+    document.getElementById("searchForm").addEventListener("submit", e => {
+        e.preventDefault()
+        applySearch()
+    })
+</script>
 @endsection
