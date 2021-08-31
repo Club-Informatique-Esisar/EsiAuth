@@ -72,6 +72,29 @@ class UserController
         await user.save()
         return response.redirect("back")
     }
+
+    async edit({ request, response, params, view, auth })
+    {
+        const user = await User.find(params.id)
+        if (user === null)
+        {
+            // Should 404
+            return response.redirect("back")
+        }
+
+        if (request.method() === "GET")
+            return view.render("Admin/Users/Edit", { user: user.toJSON() })
+
+        const {
+            email,
+            password,
+            first_name,
+            last_name
+        } = request.post()
+
+        await user.save()
+        return response.redirect("back")
+    }
 }
 
 module.exports = UserController

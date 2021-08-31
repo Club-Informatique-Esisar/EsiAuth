@@ -1,0 +1,152 @@
+@layout('Layout')
+
+@section('content')
+<form action="" method="POST">
+    <h1 class="title">
+        Profil EsiAuth
+    </h1>
+
+    <div class="field is-horizontal">
+        <div class="field-label">
+            <label class="label">Administrateur</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" {{ user.is_admin ? 'checked' : '' }} />
+                    </label>
+                </div>acr
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Login</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" value="{{ user.username }}" disabled />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Mail</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="email" value="{{ user.email }}" />
+                </div>
+                @if(hasErrorFor('email'))
+                    <p class="help is-danger">{{ getErrorFor('email') }}</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Mot de passe</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="password" name="current_password" placeholder="Mot de passe actuel" />
+                </div>
+                @if(hasErrorFor('current_password'))
+                    <p class="help is-danger">{{ getErrorFor('current_password') }}</p>
+                @endif
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="password" name="password" placeholder="Nouveau mot de passe" />
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="password" name="password2" placeholder="Répétez le nouveau mot de passe" />
+                </div>
+                @if(hasErrorFor('password2'))
+                    <p class="help is-danger">{{ getErrorFor('password2') }}</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Discord</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <p class="input" disabled>
+                        @if(user.discord_id === null)
+                            Non lié
+                            &nbsp;
+                            <span class="iconify has-text-danger" data-icon="fa:times"></span>
+                        @else
+                            Lié au compte
+                            &nbsp;
+                            <strong>#{{ user.discord_id }}</strong>
+                            &nbsp;
+                            <span class="iconify has-text-success" data-icon="fa:check"></span>
+                        @endif
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="title">Profil Esisar</h1>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Nom</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="first_name" value="{{ user.first_name }}" disabled />
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="last_name" value="{{ user.last_name }}" disabled />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label is-normal">
+            <label class="label">Promotion</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" value="{{ user.promo }}" disabled />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label"></div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary">Sauvegarder les modifications</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ csrfField() }}
+</form>
+@endsection

@@ -42,6 +42,7 @@ Route.group(() => {
   
   Route.get('users', 'AdminController.users')
   Route.route('users/import', 'AdminController.usersImport', ['GET', 'POST'])
+  Route.route('users/edit/:id', 'UserController.edit', ['GET', 'POST'])
 
   Route.get('discord/tags', 'DiscordController.tagList')
   Route.post('discord/tags', 'DiscordController.tagAdd')

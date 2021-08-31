@@ -79,6 +79,7 @@
                 <span class="iconify" data-icon="{{ orderIcon }}"></span>
                 @endif
             </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -93,6 +94,11 @@
             <td><input type="checkbox" {{ user.is_extern ? "checked" : "" }} /></td>
             <td><input type="checkbox" {{ user.is_admin ? "checked" : "" }} /></td>
             <td><input type="checkbox" {{ user.discord_id !== null ? "checked" : "" }} /></td>
+            <td>
+                <a href="{{ route('UserController.edit', { id: user.id }) }}" class="button">
+                    <span class="iconify" data-icon="fa:edit"></span>
+                </a>
+            </td>
         </tr>
         @endeach
     </tbody>
